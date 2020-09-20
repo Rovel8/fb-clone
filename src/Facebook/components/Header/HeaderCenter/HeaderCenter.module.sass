@@ -1,0 +1,29 @@
+.HeaderMiddleWrapper
+  display: flex
+  flex: 5 1
+  justify-content: center
+  align-items: center
+
+.HeaderMiddle
+  display: flex
+  flex: 1 1
+  max-width: 690px
+  align-items: center
+  justify-content: space-around
+  @media (max-width: 767px)
+    justify-content: flex-start
+
+.HeaderMiddleItem
+  display: flex
+  color: gray
+  cursor: pointer
+  flex: 1 1
+  justify-content: center
+  &:hover
+    color: royalblue
+  &:active
+    border-bottom: 4px solid royalblue
+  &:visited
+    color: grey
+  @media (max-width: 767px)
+    display: none

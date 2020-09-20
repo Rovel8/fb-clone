@@ -1,0 +1,46 @@
+.HeaderRight
+  display: flex
+  flex: 1 1
+
+.HeaderRightUser
+  display: flex
+  align-items: center
+  img
+    width: 40px
+    height: 40px
+    border-radius: 50%
+  h4
+    margin-left: 4px
+    @media (max-width: 787px)
+      padding-bottom: 5px
+      padding-right: 5px
+
+.HeaderRightItems
+  display: flex
+  align-items: center
+  justify-content: space-around
+
+.HeaderRightAddIcon
+  @media (max-width: 1140px)
+    display: none
+
+.HeaderRightMessageIcon
+  @media (max-width: 992px)
+    display: none
+
+.HeaderRightNotification
+  @media (max-width: 787px)
+    display: none
+
+.ExpandMoreIconElem
+  position: relative
+  .expandButton
+    cursor: pointer
+    padding-top: 5px
+    border: none
+    border-radius: 50px
+    outline: none
+    color: dimgray
+    &:active
+      background: white
+

@@ -1,0 +1,43 @@
+.HeaderLeft
+  display: flex
+  flex: 1 1
+  justify-content: center
+  align-items: center
+  img
+    width: 40px
+    height: 40px
+  @media (max-width: 1200px)
+    justify-content: flex-start
+    padding-top: 5px
+
+
+.HeaderLeftInput
+  display: flex
+  align-items: center
+  padding-left: 15px
+  input
+    border-radius: 14px
+    height: 40px
+    color: dimgray
+    @media (max-width: 1600px)
+      &::placeholder
+        color: white
+  @media (max-width: 1200px)
+    display: none
+
+
+.HeaderLeftBurger
+  display: none
+  color: grey
+  @media (max-width: 1140px)
+    display: flex
+    flex: 1 1
+    align-items: center
+    justify-content: center
+    padding-top: 3px
+    color: grey
+    a
+      &:visited
+        color: grey
+      &:link
+        color: grey
