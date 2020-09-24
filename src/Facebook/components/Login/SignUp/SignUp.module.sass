@@ -1,6 +1,5 @@
 .SignUpWrapper
   position: relative
-  z-index: 999
 
 .SignUp
   display: flex
@@ -10,6 +9,7 @@
 .formBtn
   margin-top: 23px
   text-align: center
+
   button
     display: inline-block
     padding: 7px 32px
@@ -21,16 +21,71 @@
     color: white
     background: #42b72a
     outline: none
+
     &:active
       margin-top: 1px
+
     &:hover
       cursor: pointer
       background: #3d9635
       transition: linear .15s
+
     &:disabled
       background: #8bfc76
 
 .formFields
   margin-top: 15px
+
   input
     width: 100%
+
+.popUpSignUpWrapper
+  position: absolute
+  top: 0
+  left: 0
+  z-index: 1000
+  width: 100%
+  min-height: 100vh
+  background-color: rgba(255, 255, 255, 0.7)
+
+
+
+.popUpSignUpBody
+  background: white
+  z-index: 1000
+  position: fixed
+  height: 350px
+  width: 350px
+  left: 50%
+  margin-left: -175px
+  top: 50%
+  margin-top: -175px
+  display: flex
+  flex-direction: column
+  border-radius: 6px
+  transition: all .8s
+
+.popUpSignUpContent
+  flex: 4 1
+
+.popUpSignUpContentText
+  flex: 1 1
+  display: flex
+  margin-top: 15px
+  font-size: 32px
+  font-weight: 600
+  color: dimgray
+  justify-content: center
+  margin-right: -30px
+
+.popUpSignUpBodyHeader
+  display: flex
+  align-items: center
+
+.popUpSignUpContentClose
+  a
+    border: none
+    outline: none
+    cursor: pointer
+    color: dimgray
+

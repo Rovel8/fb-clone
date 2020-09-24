@@ -1,32 +1,52 @@
-import React, {useState} from "react";
+import React from "react";
 import facebookName from '../../../assets/Без названия.png'
 import classes from './Login.module.css'
-import {auth, provider} from "../../../Source/Firebase";
 import {useTypedSelector} from "../../../App";
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect, Route} from "react-router-dom";
 import {SignUp} from "./SignUp/SignUp";
 import {LogIn} from "./LogIn/LogIn";
 import googleImage from '../../../assets/_uwwJdr3_400x400.jpg'
 import facebookImage from '../../../assets/Flogo.png'
-import CloseIcon from '@material-ui/icons/Close';
 import CSSTransition from "react-transition-group/CSSTransition";
+import {useDispatch} from "react-redux";
+import {loginWithGoogle} from "../../../redux/LoginReducer";
+import {ErrorMsg} from "./ErrorMsg/ErrorMsg";
+
 
 export const Login: React.FC<{}> = () => {
 
-    const initialized = useTypedSelector(state => state.user.isInitialized)
+    const loggedIn = useTypedSelector(state => state.login.isLoggedIn)
+    const haseError = useTypedSelector(state => state.login.hasError)
 
-    const [open, setOpen] = useState<boolean>(false)
+    const dispatch = useDispatch()
 
-    if (initialized) return <Redirect to={'/MainPage'}/>
+    const googleAuth = () => {
+        dispatch(loginWithGoogle())
+    }
+
+    if (loggedIn) return <Redirect to={'/MainPage'}/>
 
     return (
         <div className={classes.login}>
-            <CSSTransition classNames={{ enter: classes.popUpSignUpWrapperEnter,
-                            enterActive: classes.popUpSignUpWrapperEnterActive,
-                            exitActive: classes.popUpSignUpWrapperExitActive}}
-                           unmountOnExit={true} appear={true} in={open} timeout={{enter: 300, exit: 300}}>
-                <SignUnPopUpWindow open={open} setOpen={setOpen} />
+            <Route exact path={'/login/signup'} children={({match}) => {
+                return <CSSTransition classNames={{
+                    enter: classes.popUpEnter,
+                    enterActive: classes.popUpEnterActive,
+                    exitActive: classes.popUpExitActive
+                }}
+                                      unmountOnExit={true} in={match != null} timeout={{enter: 300, exit: 300}}>
+                    <SignUp/>
+                </CSSTransition>
+            }}/>
+
+            <CSSTransition classNames={{
+                exitActive: classes.errorMsgExitActive,
+                enter: classes.errorMsgEnter,
+                enterActive: classes.errorMsgEnterActive
+            }} in={haseError} unmountOnExit={true} timeout={700}>
+                <ErrorMsg/>
             </CSSTransition>
+
             <div className={classes.loginImages}>
                 <img className={classes.logo}
                      src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt=""/>
@@ -42,15 +62,15 @@ export const Login: React.FC<{}> = () => {
                     <div className={classes.LogInItem}>
                         <LogIn/>
                     </div>
-                    <div className={classes.SignUp}>
-                        <button onClick={() => setOpen(true)}>Create New Account</button>
+                    <div className={classes.createNewAccountBtn}>
+                        <NavLink to={'/login/signup'}>Create new account</NavLink>
                     </div>
                     <div className={classes.LogInWithServices}>
                         <div className={classes.LogInWithServicesText}>Sign in with</div>
                         <div className={classes.LogInWithServicesLinks}>
                             <div className={classes.LogInWithServicesItem}>
-                                <button onClick={() => auth.setPersistence('local').then(() => auth.signInWithPopup(provider))}
-                                       type={'submit'}><img src={googleImage} alt="GoogleAuthBtn"/></button>
+                                <button onClick={() => googleAuth()}
+                                        type={'submit'}><img src={googleImage} alt="GoogleAuthBtn"/></button>
                             </div>
                             <div className={classes.LogInWithServicesItem}>
                                 <button><img src={facebookImage} alt="FacebookAuthBtn"/></button>
@@ -63,25 +83,5 @@ export const Login: React.FC<{}> = () => {
     );
 }
 
-type SignUnPopUpWindowType = {
-    open: boolean
-    setOpen: (value: boolean) => void
-}
 
-const SignUnPopUpWindow: React.FC<SignUnPopUpWindowType> = (props) => {
-    return(
-            <div className={classes.popUpSignUpWrapper}>
-                <div className={classes.popUpSignUpBody}>
-                    <div className={classes.popUpSignUpBodyHeader}>
-                        <div className={classes.popUpSignUpContentText}>Sign Up</div>
-                        <div className={classes.popUpSignUpContentClose}>
-                            <button onClick={() => props.setOpen(false)}><CloseIcon /></button>
-                        </div>
-                    </div>
-                    <div className={classes.popUpSignUpContent}>
-                        <SignUp />
-                    </div>
-                </div>
-            </div>
-    )
-}
+

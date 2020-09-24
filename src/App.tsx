@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './App.module.css';
 import {Header} from "./Facebook/components/Header/Header";
 import {SideBar} from "./Facebook/components/SideBar/SideBar";
@@ -7,11 +7,9 @@ import {Widgets} from "./Facebook/components/Widgets/Widgets";
 import {Login} from "./Facebook/components/Login/Login";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./redux/reduxStore";
-import {auth, db} from "./Source/Firebase";
-import {actions} from "./redux/userReducer";
+import {setUser} from "./redux/userReducer";
 import {CircularProgress, createStyles, Theme} from "@material-ui/core";
-import {actionsInit} from "./redux/initializeAppReducer";
-import {Route, Redirect} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import {Bookmarks} from "./Facebook/components/Bookmarks/Bookmarks";
 import {SignUp} from "./Facebook/components/Login/SignUp/SignUp";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -23,20 +21,21 @@ export const App: React.FC<{}> = () => {
 
     return (
         <div>
-            <Route path='/bookmarks' render={() => <Bookmarks />}/>
+            <Switch>
+            <Route path='/bookmarks' render={() => <Bookmarks/>}/>
             <Route path='/login' render={() => <Login/>}/>
             <Route path='/MainPage' render={() => <MainPage/>}/>
-            <Route path='/signup' render={() => <SignUp />} />
-            <Route exact path='/' render={() => <Redirect to={'/MainPage'} />} />
+            <Route exact path='/' render={() => <Redirect to={'/MainPage'}/>}/>
+            </Switch>
         </div>
     );
 }
 
 const MainPage: React.FC<{}> = () => {
 
-    const initialized = useTypedSelector(state => state.user.isInitialized)
+    const loggedIn = useTypedSelector(state => state.login.isLoggedIn)
 
-    if (!initialized) return <Redirect to={'/login'}/>
+    if (!loggedIn) return <Redirect to={'/login'}/>
 
     return (
         <div className="App">
@@ -67,36 +66,21 @@ export const InitializedApp: React.FC<{}> = () => {
             },
         }),
     )
-
     const classes = useStyles()
-
+    const dispatch = useDispatch()
     const isInitialized = useTypedSelector(state => state.initializeApp.appIsInitialized)
 
-    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(setUser())
+    }, [])
 
-    auth.setPersistence('local').then(() => auth.onAuthStateChanged( async (user) => {
-        if (user) {
-            const userInf = await db.collection('users').doc(user.uid).get().then(doc => doc.data())
-            const uid = user.uid
-            const fullName = user.displayName ? user.displayName : userInf ? userInf.fullName : ''
-            const picture = user.photoURL ? user.photoURL : ''
-            const name = user.displayName ? user.displayName.split(' ')[0] : (userInf && userInf.name)
-            dispatch(actions.setUserDataActionCreator(picture, name, fullName, uid))
-            dispatch(actions.setIsFetching(false))
-            dispatch(actionsInit.initializeAppActionCreator())
-        } else {
-            dispatch(actions.setUserDataActionCreator('', '', '', '', false))
-            dispatch(actionsInit.initializeAppActionCreator())
-        }
-    }))
-
-return (
-    <div>
-        {isInitialized ? <App/> : <Backdrop className={classes.backdrop} open={!isInitialized}>
-            <CircularProgress color="inherit" />
-        </Backdrop>}
-    </div>
-);
+    return (
+        <div>
+            {isInitialized ? <App/> : <Backdrop className={classes.backdrop} open={!isInitialized}>
+                <CircularProgress color="inherit"/>
+            </Backdrop>}
+        </div>
+    );
 }
 
 export default App;

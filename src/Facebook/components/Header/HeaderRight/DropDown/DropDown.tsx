@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import classes from './DropDown.module.css';
-import {auth} from "../../../../../Source/Firebase";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from '@material-ui/icons/Settings';
 import HelpIcon from '@material-ui/icons/Help';
@@ -15,6 +14,7 @@ import defaultProfileImg
 import {Switch} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {themeActions} from "../../../../../redux/themeReducer";
+import {LogOut} from "../../../../../redux/LoginReducer";
 
 export const DropDown: React.FC<{}> = () => {
 
@@ -30,8 +30,7 @@ export const DropDown: React.FC<{}> = () => {
     const dispatch = useDispatch()
 
     const onSubmit = () => {
-        auth.signOut()
-        dispatch(themeActions.changeTheme(false))
+        dispatch(LogOut())
     }
 
     useEffect(() => {

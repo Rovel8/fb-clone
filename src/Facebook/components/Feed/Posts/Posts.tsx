@@ -2,6 +2,12 @@ import React, {useEffect, useState} from "react";
 import classes from './Posts.module.css'
 import {Post} from "./Post/Post";
 import {db} from "../../../../Source/Firebase";
+import {useDispatch} from "react-redux";
+
+export type PostType = {
+    id: string
+    data: firebase.firestore.DocumentData
+}
 
 export const Posts: React.FC<{}> = () => {
 
@@ -9,14 +15,8 @@ export const Posts: React.FC<{}> = () => {
 
     useEffect(() => {
         db.collection('posts').orderBy('time', 'desc').onSnapshot((snapshot) =>
-            setPosts(snapshot.docs.map((doc) =>  ({id: doc.id, data: doc.data()}))))
+            setPosts(snapshot.docs.map((doc) => ({id: doc.id, data: doc.data()}))))
     }, [])
-
-
-    type PostType = {
-        id: string
-        data: firebase.firestore.DocumentData
-    }
 
 
     return (
