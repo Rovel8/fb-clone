@@ -10,20 +10,20 @@ export const HeaderCenter: React.FC<{}> = () => {
     return <div className={classes.HeaderMiddleWrapper}>
         <div className={classes.HeaderMiddle}>
             <div className={classes.HeaderMiddleItem}>
-                <HomeIcon style={{ fontSize: 30 }}/>
+                <HomeIcon style={{fontSize: 30}}/>
             </div>
             <div className={classes.HeaderMiddleItem}>
 
-                <PeopleAltIcon style={{ fontSize: 30 }}/>
+                <PeopleAltIcon style={{fontSize: 30}}/>
             </div>
             <div className={classes.HeaderMiddleItem}>
-                <LiveTvIcon style={{ fontSize: 30 }}/>
+                <LiveTvIcon style={{fontSize: 30}}/>
             </div>
             <div className={classes.HeaderMiddleItem}>
-                <GroupWorkIcon style={{ fontSize: 30 }}/>
+                <GroupWorkIcon style={{fontSize: 30}}/>
             </div>
             <div className={classes.HeaderMiddleItem}>
-                <SportsEsportsIcon style={{ fontSize: 30 }}/>
+                <SportsEsportsIcon style={{fontSize: 30}}/>
             </div>
         </div>
     </div>

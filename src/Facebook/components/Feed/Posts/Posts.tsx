@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import classes from './Posts.module.css'
 import {Post} from "./Post/Post";
 import {db} from "../../../../Source/Firebase";
-import {useDispatch} from "react-redux";
+import {nanoid} from "nanoid";
 
 export type PostType = {
     id: string
@@ -20,9 +20,10 @@ export const Posts: React.FC<{}> = () => {
 
 
     return (
-        <div className={classes.Posts}>
+        <div data-test={'posts'} className={classes.Posts}>
             {posts.map((post) => {
-                return <Post key={post.id}
+                const id = nanoid()
+                return <Post key={id}
                              uid={post.data.uid}
                              id={post.id}
                              time={post.data.time}

@@ -11,7 +11,6 @@ import {setUser} from "./redux/userReducer";
 import {CircularProgress, createStyles, Theme} from "@material-ui/core";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Bookmarks} from "./Facebook/components/Bookmarks/Bookmarks";
-import {SignUp} from "./Facebook/components/Login/SignUp/SignUp";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Backdrop from "@material-ui/core/Backdrop";
 
@@ -22,10 +21,10 @@ export const App: React.FC<{}> = () => {
     return (
         <div>
             <Switch>
-            <Route path='/bookmarks' render={() => <Bookmarks/>}/>
-            <Route path='/login' render={() => <Login/>}/>
-            <Route path='/MainPage' render={() => <MainPage/>}/>
-            <Route exact path='/' render={() => <Redirect to={'/MainPage'}/>}/>
+                <Route path='/bookmarks' render={() => <Bookmarks/>}/>
+                <Route path='/login' render={() => <Login/>}/>
+                <Route path='/MainPage' render={() => <MainPage/>}/>
+                <Route exact path='/' render={() => <Redirect to={'/MainPage'}/>}/>
             </Switch>
         </div>
     );

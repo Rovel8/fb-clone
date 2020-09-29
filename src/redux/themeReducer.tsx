@@ -13,11 +13,12 @@ type InitialStateType = {
 export const themeReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case SET_MODE:
-            return{
+            return {
                 ...state,
                 darkMode: action.darkMode
             }
-        default: return state
+        default:
+            return state
     }
 }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import classes from './Post.module.css'
 import {Avatar} from "@material-ui/core";
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
@@ -8,10 +8,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ReplyOutlinedIcon from '@material-ui/icons/ReplyOutlined';
 import QuestionAnswerOutlinedIcon from '@material-ui/icons/QuestionAnswerOutlined';
-import {Form, Formik} from "formik";
-import {db} from "../../../../../Source/Firebase";
 import {useTypedSelector} from "../../../../../App";
 import CloseIcon from '@material-ui/icons/Close';
+import {actionsUser, deletePost} from "../../../../../redux/userReducer";
+import {useDispatch} from "react-redux";
 
 type PropsType = {
     profilePic?: string
@@ -25,12 +25,18 @@ type PropsType = {
 
 export const Post: React.FC<PropsType> = ({profilePic, profileName, time, textContent, mediaContent, id, uid}) => {
 
-    const initialValues = {}
-
     const ownUserUid = useTypedSelector(state => state.user.uid)
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const ownPosts = ownUserUid === uid ? id : '' // set post ID or empty string
+        dispatch(actionsUser.setPosts(ownPosts))
+    }, [])
+
+
     const onSubmit = () => {
-        db.collection('posts').doc(id).delete()
+        dispatch(deletePost(id))
     }
 
     const useStyles = makeStyles({
@@ -67,11 +73,7 @@ export const Post: React.FC<PropsType> = ({profilePic, profileName, time, textCo
                 </div>
                 <div className={classes.PostHeaderMore}>
                     {ownUserUid === uid &&
-                    <Formik onSubmit={onSubmit} initialValues={initialValues}>
-                        <Form>
-                            <button type={'submit'}><CloseIcon/></button>
-                        </Form>
-                    </Formik>
+                        <button onClick={() => onSubmit()}><CloseIcon/></button>
                     }
                 </div>
             </div>

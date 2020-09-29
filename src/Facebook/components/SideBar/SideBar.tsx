@@ -40,7 +40,7 @@ export const SideBar: React.FC<{}> = () => {
             <SideBarItem src={Saved} title={'Saved'}/>
             <SideBarItem src={Pages} title={'Pages'}/>
             <div className={classes.seeMore}>
-                <ExpandMoreIcon className={classes.seeMoreIcon} />
+                <ExpandMoreIcon className={classes.seeMoreIcon}/>
                 <div className={classes.seeMoreText}>See more</div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import {Action, applyMiddleware, combineReducers, createStore} from "redux";
 import {userReducer} from "./userReducer";
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk, {ThunkAction} from 'redux-thunk';
 import {initializeAppReducer} from "./initializeAppReducer";
 import {themeReducer} from "./themeReducer";
@@ -15,7 +15,7 @@ let reducers = combineReducers({
 
 type ReducersType = typeof reducers
 
-export type Initialize<T> = T extends {[key: string]: (...args: any) => infer U} ? U : never
+export type Initialize<T> = T extends { [key: string]: (...args: any) => infer U } ? U : never
 
 export type AppStateType = ReturnType<ReducersType>
 

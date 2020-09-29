@@ -12,18 +12,23 @@ import Pages from '../../../assets/sideBarIcons/Pages.png'
 import Videos from '../../../assets/sideBarIcons/Videos.png'
 import {BookmarksItem} from "./BookmarksItem/BookmarksItem";
 import {Header} from "../Header/Header";
+import { Redirect } from "react-router-dom";
 
 
 export const Bookmarks: React.FC<{}> = () => {
 
     const profileImage = useTypedSelector(state => state.user.picture)
     const fullName = useTypedSelector(state => state.user.fullName)
+    const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
+
 
     const pictureOfUserProfile = profileImage ? profileImage : defaultProfileImg
 
+    if(!isLoggedIn) return <Redirect to={'/login'} />
+
     return (
         <>
-            <Header />
+            <Header/>
             <div className={classes.Bookmarks}>
                 <div className={classes.BookmarksUser}>
                     <div className={classes.BookmarksUserPic}>
@@ -43,7 +48,7 @@ export const Bookmarks: React.FC<{}> = () => {
                 <BookmarksItem src={Saved} title={'Saved'}/>
                 <BookmarksItem src={Pages} title={'Pages'}/>
                 <div className={classes.seeMore}>
-                    <ExpandMoreIcon className={classes.seeMoreIcon} />
+                    <ExpandMoreIcon className={classes.seeMoreIcon}/>
                     <div className={classes.seeMoreText}>See more</div>
                 </div>
             </div>

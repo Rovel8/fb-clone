@@ -25,7 +25,7 @@ export const ActivityItem: React.FC<PropsType> = ({Image, title, color}) => {
     return (
         <div className={classes.ActivityItem}>
             <div className={classes.ActivityItemImg}>
-                {Image && <Image className={localStyle.root} />}
+                {Image && <Image className={localStyle.root}/>}
             </div>
             <div className={classes.ActivityItemTitle}>
                 {title}
